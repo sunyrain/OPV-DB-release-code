@@ -8,9 +8,11 @@ It is designed to work only from the public Zenodo data package:
 https://doi.org/10.5281/zenodo.20841543
 
 The scripts validate the archived CSV release, recompute summary tables, and
-generate lightweight figures from the public files. They do not include
-literature harvesting code, publisher full text, article PDFs, LLM extraction
-prompts, agent workflows, API calls, or local intermediate databases.
+generate lightweight figures from the public files. The repository also includes
+one public, article-text-free core LLM extraction prompt template. It does not
+include literature harvesting code, publisher full text, article PDFs,
+article-specific LLM inputs, packetized evidence snippets, agent workflows, API
+calls, or local intermediate databases.
 
 ## Recommended hosting
 
@@ -25,6 +27,8 @@ viewer and website.
 - `scripts/validate_release.py`: structural, checksum, tier, and PCE checks.
 - `scripts/summarize_release.py`: recomputed tier summaries and field coverage.
 - `scripts/make_figures.py`: publication-supporting overview figures.
+- `prompts/core_llm_extraction_prompt_template.md`: public, article-text-free
+  prompt template for the core device-record extraction task.
 - `requirements.txt`: minimal Python dependencies.
 
 ## Quick start
@@ -40,19 +44,19 @@ pip install -r requirements.txt
 Run all checks against the Zenodo ZIP:
 
 ```bash
-python scripts/validate_release.py --release opvdb_scidata_release_v1_20260625.zip --out outputs/validation
+python scripts/validate_release.py --release opvdb_scidata_release_v1_20260629.zip --out outputs/validation
 ```
 
 Recompute summary tables:
 
 ```bash
-python scripts/summarize_release.py --release opvdb_scidata_release_v1_20260625.zip --out outputs/summary
+python scripts/summarize_release.py --release opvdb_scidata_release_v1_20260629.zip --out outputs/summary
 ```
 
 Generate figures:
 
 ```bash
-python scripts/make_figures.py --release opvdb_scidata_release_v1_20260625.zip --out outputs/figures
+python scripts/make_figures.py --release opvdb_scidata_release_v1_20260629.zip --out outputs/figures
 ```
 
 The `--release` argument can also point to an extracted release directory with

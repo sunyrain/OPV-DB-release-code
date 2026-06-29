@@ -27,11 +27,11 @@ MANIFEST_FILE = "metadata/release_manifest.json"
 SHA256SUMS_FILE = "metadata/SHA256SUMS.txt"
 
 EXPECTED_COUNTS = {
-    "full": {"records": 38945, "unique_dois": 7886},
-    "strict_performance_benchmark": {"records": 31403, "unique_dois": 7191},
-    "strict_molecular_benchmark": {"records": 21763, "unique_dois": 5465},
+    "full": {"records": 38849, "unique_dois": 7873},
+    "strict_performance_benchmark": {"records": 31360, "unique_dois": 7185},
+    "strict_molecular_benchmark": {"records": 21720, "unique_dois": 5459},
     "materials_reference": {"records": 4548},
-    "pce_consistency_records": {"records": 37511},
+    "pce_consistency_records": {"records": 37452},
 }
 
 FORBIDDEN_PUBLIC_COLUMNS = {
