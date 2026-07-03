@@ -44,19 +44,19 @@ pip install -r requirements.txt
 Run all checks against the Zenodo ZIP:
 
 ```bash
-python scripts/validate_release.py --release opvdb_scidata_release_v1_20260629.zip --out outputs/validation
+python scripts/validate_release.py --release opvdb.zip --out outputs/validation
 ```
 
 Recompute summary tables:
 
 ```bash
-python scripts/summarize_release.py --release opvdb_scidata_release_v1_20260629.zip --out outputs/summary
+python scripts/summarize_release.py --release opvdb.zip --out outputs/summary
 ```
 
 Generate figures:
 
 ```bash
-python scripts/make_figures.py --release opvdb_scidata_release_v1_20260629.zip --out outputs/figures
+python scripts/make_figures.py --release opvdb.zip --out outputs/figures
 ```
 
 The `--release` argument can also point to an extracted release directory with
