@@ -1,72 +1,43 @@
-# OPV-DB Release Code
+# OPV-DB release code
 
-This repository contains a minimal, redistribution-safe code package for the
-OPV-DB Scientific Data release.
+Processing, validation and figure code for the OPV-DB organic photovoltaic
+device performance dataset.
 
-It is designed to work only from the public Zenodo data package:
+## Version 2.0.0
 
-https://doi.org/10.5281/zenodo.20841543
+Download and extract [OPV-DB v2.0.0](https://doi.org/10.5281/zenodo.23951239).
+The Zenodo archive is a pure-data release. Code, extraction templates and
+recorded model settings are maintained separately in this repository.
 
-The scripts validate the archived CSV release, recompute summary tables, and
-generate lightweight figures from the public files. The repository also includes
-one public, article-text-free core LLM extraction prompt template. It does not
-include literature harvesting code, publisher full text, article PDFs,
-article-specific LLM inputs, packetized evidence snippets, agent workflows, API
-calls, or local intermediate databases.
-
-## Recommended hosting
-
-Use a standalone GitHub repository, for example `OPV-DB-release-code`. This is
-cleaner for a paper Code Availability statement than mixing validation scripts
-into the OPV2D website repository. The OPV2D repository can remain the static
-viewer and website.
-
-## Contents
-
-- `scripts/common.py`: release ZIP/directory reader and shared helpers.
-- `scripts/validate_release.py`: structural, checksum, tier, and PCE checks.
-- `scripts/summarize_release.py`: recomputed tier summaries and field coverage.
-- `scripts/make_figures.py`: publication-supporting overview figures.
-- `prompts/core_llm_extraction_prompt_template.md`: public, article-text-free
-  prompt template for the core device-record extraction task.
-- `requirements.txt`: minimal Python dependencies.
-
-## Quick start
-
-Create a Python environment and install dependencies:
-
-```bash
-python -m venv .venv
-.venv/Scripts/activate
-pip install -r requirements.txt
+```sh
+python -m pip install -r v2/requirements.txt
+python v2/reproduce.py --release /path/to/extracted/data-release --out /path/to/results
 ```
 
-Run all checks against the Zenodo ZIP:
+The release directory must contain `data/` and `validation/`. The offline
+workflow reads the seven published tables, verifies their sizes and linked
+identifiers, recomputes both strict binary subsets, compares their members and
+all cells with the supplied subsets, and generates the main figures and
+specialist-collection coverage figure. It does not modify the release.
 
-```bash
-python scripts/validate_release.py --release opvdb.zip --out outputs/validation
-```
+The primary binary collection contains 32,778 records; the ternary and indoor
+collections contain 2,588 and 1,678. The strict performance and molecular
+subsets contain 27,863 and 19,302 records. The binary supplement has 45
+descriptive fields plus two linking identifiers (47 columns).
 
-Recompute summary tables:
+See [workflow details](v2/README.md), [extraction settings](v2/prompts/execution_settings.json)
+and the article-text-free templates in `v2/prompts/`. The six historical search
+definitions are retained there with a description of their coverage and timestamp
+meaning. Article full text, PDFs, source images and credentials are excluded.
 
-```bash
-python scripts/summarize_release.py --release opvdb.zip --out outputs/summary
-```
+## Earlier workflows
 
-Generate figures:
+The existing `scripts/`, `prompts/` and root requirements are retained for earlier
+release formats. They do not target the v2 pure-data layout. Data
+[v1.1.0](https://doi.org/10.5281/zenodo.22177960) remains the revision comparison
+baseline; [v1.0](https://doi.org/10.5281/zenodo.20841543) is a historical release.
+The [OPV2D repository](https://github.com/sunyrain/OPV2D) contains the website.
 
-```bash
-python scripts/make_figures.py --release opvdb.zip --out outputs/figures
-```
-
-The `--release` argument can also point to an extracted release directory with
-the same internal layout as the Zenodo ZIP.
-
-## Scope
-
-These scripts are for public-release verification and reuse. They intentionally
-do not attempt to regenerate OPV-DB from raw literature assets. The public
-release is a secondary literature-mined data package; the authoritative
-redistributable inputs are the archived CSV files, validation tables, tier
-rules, manifest, checksums, data dictionary, license, and attribution files.
-
+Code is MIT licensed. The data are CC BY 4.0 with the attribution included in the
+Zenodo archive. Model outputs cannot be reproduced deterministically from
+prompts alone; the offline workflow reproduces published-table analyses.

@@ -1,0 +1,139 @@
+id,query_string,source,total_results,complete_status,last_updated
+1,"TITLE-ABS-KEY(
+  (
+    ""organic photovoltaic*"" OR ""organic solar cell*"" OR ""OPV"" OR ""OSC""
+    OR ""polymer solar cell*"" OR ""bulk heterojunction"" OR ""BHJ""
+    OR ""non-fullerene acceptor*"" OR ""NFA"" OR ""small molecule acceptor*""
+    OR ""organic semiconductor*"" OR ""conjugated polymer*""
+    OR ""perovskite-organic tandem"" OR ""organic tandem solar cell*""
+  )
+  AND
+  (
+    ""power conversion efficiency"" OR ""PCE"" OR ""fill factor"" OR ""FF""
+    OR ""open circuit voltage"" OR ""Voc"" OR ""short circuit current"" OR ""Jsc""
+    OR ""charge transport"" OR ""charge mobility"" OR ""exciton""
+    OR ""morphology"" OR ""blend film"" OR ""active layer""
+    OR ""device stability"" OR ""degradation"" OR ""lifetime""
+    OR ""donor"" OR ""acceptor"" OR ""D-A"" OR ""HOMO"" OR ""LUMO""
+    OR ""Y6"" OR ""PM6"" OR ""PTB7"" OR ""PBDB-T"" OR ""IT-4F"" OR ""ITIC""
+    OR ""electron transport layer"" OR ""ETL"" OR ""hole transport layer"" OR ""HTL""
+    OR ""interface engineering"" OR ""interlayer"" OR ""additive""
+    OR ""ternary blend"" OR ""binary blend"" OR ""quaternary""
+    OR ""indoor photovoltaic*"" OR ""flexible solar cell*"" OR ""semitransparent""
+  )
+) AND PUBDATETXT(January 2025) AND DOCTYPE(ar)",Elsevier,304,1,2026-01-30 02:55:48
+2,"TS=(
+  (
+    ""organic photovoltaic*"" OR ""organic solar cell*"" OR ""OPV"" OR ""OSC""
+    OR ""polymer solar cell*"" OR ""bulk heterojunction"" OR ""BHJ""
+    OR ""non-fullerene acceptor*"" OR ""NFA"" OR ""small molecule acceptor*""
+    OR ""organic semiconductor*"" OR ""conjugated polymer*""
+    OR ""perovskite-organic tandem"" OR ""organic tandem solar cell*""
+  )
+  AND
+  (
+    ""power conversion efficiency"" OR ""PCE"" OR ""fill factor"" OR ""FF""
+    OR ""open circuit voltage"" OR ""Voc"" OR ""short circuit current"" OR ""Jsc""
+    OR ""charge transport"" OR ""charge mobility"" OR ""exciton""
+    OR ""morphology"" OR ""blend film"" OR ""active layer""
+    OR ""device stability"" OR ""degradation"" OR ""lifetime""
+    OR ""donor"" OR ""acceptor"" OR ""D-A"" OR ""HOMO"" OR ""LUMO""
+    OR ""Y6"" OR ""PM6"" OR ""PTB7"" OR ""PBDB-T"" OR ""IT-4F"" OR ""ITIC""
+    OR ""electron transport layer"" OR ""ETL"" OR ""hole transport layer"" OR ""HTL""
+    OR ""interface engineering"" OR ""interlayer"" OR ""additive""
+    OR ""ternary blend"" OR ""binary blend"" OR ""quaternary""
+    OR ""indoor photovoltaic*"" OR ""flexible solar cell*"" OR ""semitransparent""
+  )
+) AND PY=(2025) AND DT=(Article)",WOS,3351,1,2026-01-30 02:55:48
+3,"TS=(
+  (
+    ""organic photovoltaic*"" OR ""organic solar cell*"" OR ""OPV"" OR ""OSC""
+    OR ""polymer solar cell*"" OR ""bulk heterojunction"" OR ""BHJ""
+    OR ""non-fullerene acceptor*"" OR ""NFA"" OR ""small molecule acceptor*""
+    OR ""organic semiconductor*"" OR ""conjugated polymer*""
+    OR ""perovskite-organic tandem"" OR ""organic tandem solar cell*""
+  )
+  AND
+  (
+    ""power conversion efficiency"" OR ""PCE"" OR ""fill factor"" OR ""FF""
+    OR ""open circuit voltage"" OR ""Voc"" OR ""short circuit current"" OR ""Jsc""
+    OR ""charge transport"" OR ""charge mobility"" OR ""exciton""
+    OR ""morphology"" OR ""blend film"" OR ""active layer""
+    OR ""device stability"" OR ""degradation"" OR ""lifetime""
+    OR ""donor"" OR ""acceptor"" OR ""D-A"" OR ""HOMO"" OR ""LUMO""
+    OR ""Y6"" OR ""PM6"" OR ""PTB7"" OR ""PBDB-T"" OR ""IT-4F"" OR ""ITIC""
+    OR ""electron transport layer"" OR ""ETL"" OR ""hole transport layer"" OR ""HTL""
+    OR ""interface engineering"" OR ""interlayer"" OR ""additive""
+    OR ""ternary blend"" OR ""binary blend"" OR ""quaternary""
+    OR ""indoor photovoltaic*"" OR ""flexible solar cell*"" OR ""semitransparent""
+  )
+) AND PY=(2025 OR 2026) AND DT=(Article)",WOS,4039,1,2026-03-31 16:22:30
+4,"TITLE-ABS-KEY(
+  (
+    ""organic photovoltaic*"" OR ""organic solar cell*"" OR ""OPV"" OR ""OSC""
+    OR ""polymer solar cell*"" OR ""bulk heterojunction"" OR ""BHJ""
+    OR ""non-fullerene acceptor*"" OR ""NFA"" OR ""small molecule acceptor*""
+    OR ""organic semiconductor*"" OR ""conjugated polymer*""
+    OR ""perovskite-organic tandem"" OR ""organic tandem solar cell*""
+  )
+  AND
+  (
+    ""power conversion efficiency"" OR ""PCE"" OR ""fill factor"" OR ""FF""
+    OR ""open circuit voltage"" OR ""Voc"" OR ""short circuit current"" OR ""Jsc""
+    OR ""charge transport"" OR ""charge mobility"" OR ""exciton""
+    OR ""morphology"" OR ""blend film"" OR ""active layer""
+    OR ""device stability"" OR ""degradation"" OR ""lifetime""
+    OR ""donor"" OR ""acceptor"" OR ""D-A"" OR ""HOMO"" OR ""LUMO""
+    OR ""Y6"" OR ""PM6"" OR ""PTB7"" OR ""PBDB-T"" OR ""IT-4F"" OR ""ITIC""
+    OR ""electron transport layer"" OR ""ETL"" OR ""hole transport layer"" OR ""HTL""
+    OR ""interface engineering"" OR ""interlayer"" OR ""additive""
+    OR ""ternary blend"" OR ""binary blend"" OR ""quaternary""
+    OR ""indoor photovoltaic*"" OR ""flexible solar cell*"" OR ""semitransparent""
+  )
+) AND PUBYEAR > 2024 AND PUBYEAR < 2027 AND DOCTYPE(ar)",Elsevier,4078,1,2026-03-31 16:22:30
+5,"TS=(
+  (
+    ""organic photovoltaic*"" OR ""organic solar cell*"" OR ""OPV"" OR ""OSC""
+    OR ""polymer solar cell*"" OR ""bulk heterojunction"" OR ""BHJ""
+    OR ""non-fullerene acceptor*"" OR ""NFA"" OR ""small molecule acceptor*""
+    OR ""organic semiconductor*"" OR ""conjugated polymer*""
+    OR ""perovskite-organic tandem"" OR ""organic tandem solar cell*""
+  )
+  AND
+  (
+    ""power conversion efficiency"" OR ""PCE"" OR ""fill factor"" OR ""FF""
+    OR ""open circuit voltage"" OR ""Voc"" OR ""short circuit current"" OR ""Jsc""
+    OR ""charge transport"" OR ""charge mobility"" OR ""exciton""
+    OR ""morphology"" OR ""blend film"" OR ""active layer""
+    OR ""device stability"" OR ""degradation"" OR ""lifetime""
+    OR ""donor"" OR ""acceptor"" OR ""D-A"" OR ""HOMO"" OR ""LUMO""
+    OR ""Y6"" OR ""PM6"" OR ""PTB7"" OR ""PBDB-T"" OR ""IT-4F"" OR ""ITIC""
+    OR ""electron transport layer"" OR ""ETL"" OR ""hole transport layer"" OR ""HTL""
+    OR ""interface engineering"" OR ""interlayer"" OR ""additive""
+    OR ""ternary blend"" OR ""binary blend"" OR ""quaternary""
+    OR ""indoor photovoltaic*"" OR ""flexible solar cell*"" OR ""semitransparent""
+  )
+) AND PY=(2020 OR 2021 OR 2022 OR 2023 OR 2024) AND DT=(Article)",WOS,15279,1,2026-04-10 03:41:19
+6,"TITLE-ABS-KEY(
+  (
+    ""organic photovoltaic*"" OR ""organic solar cell*"" OR ""OPV"" OR ""OSC""
+    OR ""polymer solar cell*"" OR ""bulk heterojunction"" OR ""BHJ""
+    OR ""non-fullerene acceptor*"" OR ""NFA"" OR ""small molecule acceptor*""
+    OR ""organic semiconductor*"" OR ""conjugated polymer*""
+    OR ""perovskite-organic tandem"" OR ""organic tandem solar cell*""
+  )
+  AND
+  (
+    ""power conversion efficiency"" OR ""PCE"" OR ""fill factor"" OR ""FF""
+    OR ""open circuit voltage"" OR ""Voc"" OR ""short circuit current"" OR ""Jsc""
+    OR ""charge transport"" OR ""charge mobility"" OR ""exciton""
+    OR ""morphology"" OR ""blend film"" OR ""active layer""
+    OR ""device stability"" OR ""degradation"" OR ""lifetime""
+    OR ""donor"" OR ""acceptor"" OR ""D-A"" OR ""HOMO"" OR ""LUMO""
+    OR ""Y6"" OR ""PM6"" OR ""PTB7"" OR ""PBDB-T"" OR ""IT-4F"" OR ""ITIC""
+    OR ""electron transport layer"" OR ""ETL"" OR ""hole transport layer"" OR ""HTL""
+    OR ""interface engineering"" OR ""interlayer"" OR ""additive""
+    OR ""ternary blend"" OR ""binary blend"" OR ""quaternary""
+    OR ""indoor photovoltaic*"" OR ""flexible solar cell*"" OR ""semitransparent""
+  )
+) AND PUBYEAR > 2019 AND PUBYEAR < 2025 AND DOCTYPE(ar)",Elsevier,14517,1,2026-04-10 03:41:19

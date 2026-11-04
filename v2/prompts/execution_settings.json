@@ -1,0 +1,26 @@
+{
+  "initial_extraction_and_reference_blind_comparison": {
+    "model": "GPT-5.5",
+    "reasoning_effort": "medium",
+    "input": "DOI-bounded source text and tables; manual reference values and OPV-DB records withheld in the blind comparison"
+  },
+  "source_based_completion_and_review": {
+    "requested_model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "response_format": {
+      "type": "json_object"
+    },
+    "primary_extractions_per_doi": 1,
+    "input": "Original source text and available supporting material; target records serve only as location clues"
+  },
+  "structure_completion": {
+    "requested_model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "response_format": {
+      "type": "json_object"
+    },
+    "max_images_per_call": 8,
+    "acceptance": "Two independent image readings, role and source agreement, canonical isomeric SMILES agreement, RDKit parsing"
+  },
+  "unspecified_parameters": "No temperature or seed setting is inferred when absent from the retained runner configuration."
+}
