@@ -22,7 +22,7 @@ specialist-collection coverage figure. It does not modify the release.
 
 The primary binary collection contains 32,778 records; the ternary and indoor
 collections contain 2,588 and 1,678. The strict performance and molecular
-subsets contain 27,863 and 19,302 records. The binary supplement has 45
+subsets contain 27,863 and 19,299 records. The binary supplement has 45
 descriptive fields plus two linking identifiers (47 columns).
 
 See [workflow details](v2/README.md), [extraction settings](v2/prompts/execution_settings.json)

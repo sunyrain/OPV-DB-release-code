@@ -16,7 +16,7 @@ Figures 2–4 and Supplementary Figure S1 are calculated from the published tabl
 
 The binary table preserves 37 fields. Its supplement contains 45 descriptive
 fields and id/doi (47 columns). Ternary, indoor and material-reference tables
-have 68, 57 and 7 columns. Explicitly identified zero-loading binary controls
+have 68, 57 and 7 columns. Identified binary controls prepared without a third active material
 are excluded from the ternary collection. Its literature coverage remains partial.
 
 For each material role, HOMO/LUMO coverage requires both values. Each extra
@@ -36,3 +36,5 @@ Outputs include inventories, field coverage, subset membership, numerical inputs
 figure files and captions, and a verification summary. Prompts and settings
 document extraction, source-based completion and structure checks. They exclude
 publisher text and credentials and do not constitute deterministic model replay.
+
+The 8 November 2026 file correction retains 32,778 binary observations and 27,863 strict-performance records; the strict molecular subset contains 19,299 records. Figure 2 groups recognised aliases using the DOI union and omits unspecified PCBM. The workflow and Figure 1 asset correspond to these corrected files under the same version DOI.

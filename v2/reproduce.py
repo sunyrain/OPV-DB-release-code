@@ -1,5 +1,5 @@
 from pathlib import Path
-import argparse,json,shutil
+import argparse,json,shutil,re
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -97,7 +97,15 @@ def load():
  b=b.merge(meta[['doi_norm','publish_year']],on='doi_norm',how='left',validate='many_to_one')
  b['publish_year']=pd.to_numeric(b.publish_year,errors='coerce')
  for f in ['pce','voc','jsc','ff']:b[f+'_num']=base.number(b[f])
- for role in ['donor','acceptor']:b[role+'_label']=base.label(b,role)
+ aliases={'PM6':['PM6','PBDB-TF','PBDB-T-2F'],'PTB7-Th':['PTB7-Th','PCE10','PCE-10','PBDTTT-EFT'],'PC71BM':['PC71BM','PC70BM','[70]PCBM'],'PC61BM':['PC61BM','PC60BM','[60]PCBM'],'IT-4F':['IT-4F','ITIC-4F'],'Y6':['Y6','BTP-4F','BTP-4F-8'],'Y6-BO':['Y6-BO','BTP-4F-12']}
+ norm=lambda s:re.sub(r'\s+','',s).upper().replace('−','-').replace('–','-')
+ mapping={norm(v):k for k,values in aliases.items() for v in values}
+ alias_rows=[]
+ for role in ['donor','acceptor']:
+  b[role+'_label']=b[role].map(lambda s:mapping.get(norm(s),s.strip()))
+  for r in b[['id','doi',role,role+'_label']].itertuples(index=False,name=None):
+   if r[2].strip() and r[2].strip()!=r[3]:alias_rows.append({'id':r[0],'doi':r[1],'role':role,'reported_label':r[2],'plot_group':r[3]})
+ csv(pd.DataFrame(alias_rows),'figure2_alias_groups.csv')
  return b
 
 def fig2(b):
@@ -118,13 +126,13 @@ def fig2(b):
  style.panel(ax,'b','Multiple observations per source');ax.text(.97,.96,f'{100*g.ge(2).mean():.1f}% have ≥2 records',transform=ax.transAxes,ha='right',va='top',fontsize=7.5)
  for ax,role,letter in zip(axes[1],['donor','acceptor'],'cd'):
   q=b[base.present(b[role+'_label'])].groupby(role+'_label').doi_norm.nunique().reset_index(name='source_dois').rename(columns={role+'_label':'label'})
-  q=q[~q.label.map(style.short_label)]
+  q=q[~q.label.map(lambda x:style.short_label(x) or x.strip().upper()=='PCBM')]
   material_rankings.append(q.assign(role=role))
   ranking(ax,q,'label',letter,'Frequent '+role+' labels',role=='acceptor')
   ax.tick_params(axis='y',labelsize=8)
  csv(pd.concat(material_rankings,ignore_index=True),'figure2_material_labels.csv')
  style.note(fig,'*2026 is partial. 72 records from 24 DOIs lack a year. Material rankings count source DOIs and omit ambiguous short labels.',x=.06,y=.025,width=108)
- style.save(fig,NAMES[1],'Figure 2. Literature and material coverage. a, Observation-record and source-DOI counts by publication year; 2026 is partial and 72 records from 24 DOIs lack a reliable year. b, Records per DOI; 91.3% of the 7,360 sources contribute at least two observations. c,d, Frequent donor and acceptor labels ranked by source-DOI count, with ambiguous short names omitted. Teal acceptor bars identify fullerene-name matches. These are literature and label counts, not independent experiments or unique chemical entities.')
+ style.save(fig,NAMES[1],'Figure 2. Literature and material coverage. a, Observation-record and source-DOI counts by publication year; 2026 is partial and 72 records from 24 DOIs lack a reliable year. b, Records per DOI; 91.3% of the 7,360 sources contribute at least two observations. c,d, Frequent donor and acceptor materials ranked by source-DOI count after harmonising recognised aliases and taking the DOI union for each material; ambiguous short labels and unspecified PCBM are omitted. Teal acceptor bars identify fullerene-name matches. Fullerene frequencies reflect historical studies and control devices; recent high-efficiency advances are led by non-fullerene acceptors.')
 
 def fig3(b):
  perf=b[['pce_num','voc_num','jsc_num','ff_num']].notna().all(axis=1)
@@ -184,13 +192,13 @@ def fig3(b):
  fig.add_artist(Line2D([.016,.984],[.355,.355],transform=fig.transFigure,color='#b9c6cd',lw=.6))
  fig.text(.022,.306,'d   Joint availability',fontsize=8.9,fontweight='bold')
  fig.text(.022,.974,'32,778 binary observation records',fontsize=8.7)
- style.save(fig,NAMES[2],'Figure 3. Availability of performance, material and device information. a, Core photovoltaic performance. b, Reported donor and acceptor names, mapped SMILES and material-reference energy values; donor and acceptor HOMO/LUMO each require both energy values for the same record. c, Device structure, device type, electron-transport layer (ETL), hole-transport layer (HTL), blend ratio and solvent. Device structure includes reported layer stacks or architecture descriptions. d, Four finite performance values alone, and combined separately with both reported material names, paired SMILES or all four donor/acceptor HOMO/LUMO values; n denotes the record count for each combination. Each added information set is combined with the performance quartet independently of the other combinations. Every percentage uses all 32,778 binary records. Energy values retain their material-reference meaning; field availability is not chemical-identity verification.')
+ style.save(fig,NAMES[2],'Figure 3. Availability of performance, material and device information. a, Core photovoltaic performance. b, Reported donor and acceptor names, mapped SMILES and material-reference energy values; donor and acceptor HOMO/LUMO each require both energy values for the same record. c, Device structure, device type, electron-transport layer (ETL), hole-transport layer (HTL), blend ratio and solvent. Device structure includes reported layer stacks or architecture descriptions. d, Four finite performance values alone, and combined separately with both reported material names, paired SMILES or all four donor/acceptor HOMO/LUMO values; n denotes the record count for each combination. Each combination is evaluated separately against the performance quartet. Every percentage uses all 32,778 binary records.')
 
 def fig4(b):
  inputs,summary,threshold,cov=subset_analysis(b)
  fig,axes=plt.subplots(1,2,figsize=(7.09,3.5));fig.subplots_adjust(left=.10,right=.97,top=.77,bottom=.24,wspace=.65)
  ax=axes[0];im=ax.hexbin(inputs.pce_num,inputs.pce_calculated_nominal_percent,gridsize=40,mincnt=1,cmap=DENSITY_CMAP,norm=LogNorm(),linewidths=0)
- vmax=max(inputs.pce_num.max(),inputs.pce_calculated_nominal_percent.max())*1.05;ax.plot([0,vmax],[0,vmax],'--',lw=.7,color=C['ink']);ax.set_xlim(0,vmax);ax.set_ylim(0,vmax);ax.set_aspect('equal');ax.set_xlabel('Reported PCE (%)');ax.set_ylabel('Calculated PCE (%)');vector_colorbar(fig,im,ax,'Records / hexagon');style.panel(ax,'a','Full binary collection',pad=19);ax.text(0,1.03,'n = 32,255 complete quartets',transform=ax.transAxes,fontsize=7.5)
+ vmax=max(inputs.pce_num.max(),inputs.pce_calculated_nominal_percent.max())*1.05;ax.plot([0,vmax],[0,vmax],'--',lw=.7,color=C['ink']);ax.set_xlim(0,vmax);ax.set_ylim(0,vmax);ax.set_aspect('equal');ax.set_xlabel('Reported PCE (%)');ax.set_ylabel('Calculated PCE (%)');vector_colorbar(fig,im,ax,'Records / hexagon');style.panel(ax,'a','Full binary collection',pad=19);ax.text(0,1.03,f'n = {len(inputs):,} complete quartets',transform=ax.transAxes,fontsize=7.5)
  ax=axes[1];xmax=max(inputs.relative_difference_percent.max()*1.15,12)
  csv(pd.DataFrame({'reported_pce_center':im.get_offsets()[:,0],'calculated_pce_center':im.get_offsets()[:,1],'records':im.get_array()}),'figure4_nominal_parity_hexbin.csv')
  cumulative=[]
@@ -203,7 +211,7 @@ def fig4(b):
  for threshold_value in [2,5,10]:ax.axvline(threshold_value,ls=':',lw=.6,color=C['gray'])
  ax.legend(fontsize=6.8,frameon=True,facecolor='white',edgecolor='none',loc='lower right');style.panel(ax,'b','Full data and selected subsets',pad=19)
  style.note(fig,'Nominal irradiance: 100 mW cm$^{-2}$. Strict subsets apply the 2% threshold; their curves describe selection, not independent validation.',x=.055,y=.025,width=112)
- style.save(fig,NAMES[3],'Figure 4. Photovoltaic consistency and subset selection. a, Reported versus calculated PCE for 32,255 complete positive-PCE binary observations, using nominal irradiance of 100 mW cm−2; hexagon colour shows logarithmic record counts and the dashed line indicates equality. b, Cumulative absolute relative differences for the full evaluable collection, strict performance subset and strict molecular subset, each normalised by its own size. The axis is linear below 0.1% and logarithmic above. The strict subsets apply the 2% limit, so their curves illustrate selection rather than independent validation. Independent extraction agreement is assessed in Table 2.')
+ style.save(fig,NAMES[3],'Figure 4. Photovoltaic consistency and subset selection. a, Reported versus calculated PCE for 32,254 complete positive-PCE binary observations, using nominal irradiance of 100 mW cm⁻²; hexagon colour shows logarithmic record counts and the dashed line indicates equality. b, Cumulative absolute relative differences for the full evaluable collection, strict performance subset and strict molecular subset, each normalised by its own size. The axis is linear below 0.1% and logarithmic above. Dotted vertical lines mark 2%, 5% and 10%. The strict subsets incorporate a 2% relative-difference threshold, and their curves show the resulting distributions.')
 
 def render_workflow():
     from svglib.svglib import svg2rlg, register_font as register_svg_font
@@ -230,7 +238,7 @@ def render_workflow():
 
 def validate():
     inventory=[]
-    for table,expected_rows,expected_cols,expected_dois in [('binary',32778,37,7360),('binary_supplement',32778,47,7360),('ternary',2588,68,461),('indoor',1678,57,166),('materials_reference',4988,7,None),('binary_strict_performance',27863,37,6873),('binary_strict_molecular',19302,37,5193)]:
+    for table,expected_rows,expected_cols,expected_dois in [('binary',32778,37,7360),('binary_supplement',32778,47,7360),('ternary',2588,68,461),('indoor',1678,57,166),('materials_reference',4988,7,None),('binary_strict_performance',27863,37,6873),('binary_strict_molecular',19299,37,5193)]:
         df=base.read(DATA/(table+'.csv'))
         assert df.shape==(expected_rows,expected_cols),(table,df.shape)
         if expected_dois is not None:
@@ -247,14 +255,12 @@ def validate():
 def supplement(data):
     t=data['ternary'];i=data['indoor']
     st=[(('component_1_name','component_2_name','component_3_name'),'Three names','text'),(('component_1_role','component_2_role','component_3_role'),'Three roles','text'),(('ratio_raw',),'Composition ratio','text'),(('pce_percent',),'PCE','number'),(('voc_v','jsc_ma_cm2','ff_percent','pce_percent'),'Four metrics','number')]
-    si=[(('light_source_type',),'Light source','text'),(('illuminance_lux',),'Illuminance (lux)','number'),(('irradiance_uw_cm2',),'Irradiance','number'),(('pce_percent',),'PCE','number'),(('voc_v',),'Voc','number'),(('jsc_ua_cm2',),'Jsc','number'),(('ff_percent',),'FF','number'),(('voc_v','jsc_ua_cm2','ff_percent','pce_percent'),'Four metrics','number')]
+    si=[(('light_source_type',),'Light source','text'),(('illuminance_lux',),'Illuminance (lux)','number'),(('irradiance_uw_cm2',),'Irradiance','number'),(('pce_percent',),'PCE','number'),(('voc_v',),r'$V_{OC}$','number'),(('jsc_ua_cm2',),r'$J_{SC}$','number'),(('ff_percent',),'FF','number'),(('voc_v','jsc_ua_cm2','ff_percent','pce_percent'),'Four metrics','number')]
     ct=style.coverage(t,st,'ternary');ci=style.coverage(i,si,'indoor');csv(pd.concat([ct,ci]),'figureS1_collection_field_coverage.csv')
-    fig,axes=plt.subplots(1,2,figsize=(style.WIDTH,3.6));fig.subplots_adjust(left=.18,right=.97,top=.80,bottom=.25,wspace=.83)
-    for a,cov,color,letter,title in zip(axes,[ct,ci],[C['teal'],C['blue']],['a','b'],['Ternary-study collection\n(n = 2,588)','Indoor collection\n(n = 1,678)']):
+    fig,axes=plt.subplots(1,2,figsize=(style.WIDTH,3.3));fig.subplots_adjust(left=.18,right=.97,top=.78,bottom=.23,wspace=.83)
+    for a,cov,color,letter,title in zip(axes,[ct,ci],[C['teal'],C['blue']],['a','b'],['Ternary collection\n(n = 2,588)','Indoor collection\n(n = 1,678)']):
         style.coverage_bars(a,cov,color);a.tick_params(labelsize=7);a.set_xlabel('Records with information (%)',fontsize=7.4);style.panel(a,letter,title,pad=12)
-    style.note(fig,'Explicitly identified zero-loading binary controls are excluded. Both collections have partial literature coverage. Component-specific SMILES are not assigned; lux and irradiance remain separate.',x=.055,y=.04,width=120)
-    style.save(fig,NAMES[4],
-        'Supplementary Figure S1. Information available in the ternary-study and indoor collections. a, Three component names, three roles, reported composition ratio, PCE and complete numerical performance quartets among 2,588 ternary-study records, after removal of explicitly identified zero-loading binary controls. b, Light-source identity, illuminance, irradiance and performance information among 1,678 indoor records. Bars show percentages and adjacent numbers show counts. Text fields use the documented missing-token convention; performance and illumination numbers require finite numeric values. Lux is not converted into irradiance. Component-specific structure mapping has not been established. Both collections have limited literature coverage because the original acquisition focused on standard binary devices; these panels do not claim comprehensive surveys.')
+    style.save(fig,NAMES[4],'Supplementary Figure S1. Information available in the ternary and indoor collections. a, Three component names, three roles, reported composition ratio, PCE and complete numerical performance quartets among 2,588 ternary observations. b, Light-source identity, illuminance, irradiance and performance information among 1,678 indoor observations. Bars show percentages; adjacent numbers give record counts. Text fields use the documented missing-token convention; performance and illumination values require finite numbers. Illuminance and irradiance are reported separately. Both collections have partial literature coverage.')
 
 def main():
     global RELEASE,DATA,FIG,SOURCE
@@ -270,8 +276,8 @@ def main():
     style.FIG=FIG;style.C=C;style.setup();validate();b=load()
     render_workflow();fig2(b);fig3(b);fig4(b)
     supplement({name:base.read(DATA/(name+".csv")) for name in ["ternary","indoor"]})
-    joint=base.read(SOURCE/'figure3_joint_availability.csv');assert joint.records.astype(int).tolist()==[32255,31677,22291,20971]
-    subsets=base.read(SOURCE/'figure4_subset_summary.csv');assert subsets.records.astype(int).tolist()==[32778,27863,19302]
+    joint=base.read(SOURCE/'figure3_joint_availability.csv');assert joint.records.astype(int).tolist()==[32254,31677,22287,20973]
+    subsets=base.read(SOURCE/'figure4_subset_summary.csv');assert subsets.records.astype(int).tolist()==[32778,27863,19299]
     membership=base.read(SOURCE/'figure4_current_subset_membership.csv')
     raw=base.read(DATA/'binary.csv')
     for key in ['strict_performance','strict_molecular']:
