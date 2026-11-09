@@ -203,8 +203,8 @@ def fig4(b):
  csv(pd.DataFrame({'reported_pce_center':im.get_offsets()[:,0],'calculated_pce_center':im.get_offsets()[:,1],'records':im.get_array()}),'figure4_nominal_parity_hexbin.csv')
  cumulative=[]
  for key,label,color,ls in [('full','Full binary',C['gray'],'-'),('strict_performance','Strict performance',C['blue'],'-'),('strict_molecular','Strict molecular',C['teal'],'--')]:
-  q=inputs.loc[inputs[key]].sort_values('relative_difference_percent');xx=q.relative_difference_percent.to_numpy();yy=100*np.arange(1,len(q)+1)/len(q)
-  cumulative.append(pd.DataFrame({'subset':key,'relative_difference_percent':xx,'cumulative_percent':yy}))
+  q=inputs.loc[inputs[key]].sort_values(['relative_difference_percent','id'],kind='stable');xx=q.relative_difference_percent.to_numpy();yy=100*np.arange(1,len(q)+1)/len(q)
+  cumulative.append(q[['id','relative_difference_percent']].assign(subset=key,denominator=len(q),cumulative_percent=yy))
   ax.step(np.r_[0,xx,xmax],np.r_[0,yy,100],where='post',color=color,ls=ls,lw=1.4,label=f'{label} (n = {len(q):,})')
  csv(pd.concat(cumulative,ignore_index=True),'figure4_nominal_cumulative_difference.csv')
  ax.set_xscale('symlog',linthresh=.1,linscale=.5);ax.set_xlim(0,xmax);ax.set_ylim(0,102);ticks=[x for x in [0,.1,1,10,100,1000] if x<=xmax];ax.set_xticks(ticks);ax.set_xticklabels([f'{x:g}' for x in ticks]);ax.set_yticks([0,25,50,75,100]);ax.grid();ax.set_xlabel('Absolute relative difference (%)');ax.set_ylabel('Cumulative records (%)')

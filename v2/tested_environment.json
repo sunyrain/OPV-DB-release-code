@@ -10,5 +10,24 @@
   },
   "data_doi": "10.5281/zenodo.23951239",
   "tested": "2026-11-09",
-  "result": "passed"
+  "result": "passed",
+  "additional_test_runs": [
+    {
+      "tested": "2026-11-10",
+      "python": "3.12.10",
+      "packages": {
+        "numpy": "1.26.4",
+        "pandas": "2.3.3",
+        "matplotlib": "3.10.9",
+        "PyMuPDF": "1.28.0",
+        "svglib": "1.6.0",
+        "reportlab": "4.5.1"
+      },
+      "data_doi": "10.5281/zenodo.23951239",
+      "result": "passed",
+      "binary_records": 32778,
+      "strict_performance": 27863,
+      "strict_molecular": 19299
+    }
+  ]
 }

@@ -1,21 +1,13 @@
-# Code Availability Text
+# Code availability
 
-Suggested manuscript wording after this code package is published:
+Custom scripts for processing the deposited OPV-DB v2.0.0 tables, reproducing
+the binary subset selection and generating the data figures are available at
+https://github.com/sunyrain/OPV-DB-release-code/tree/main/v2. The repository also
+provides article-text-free extraction templates and recorded model settings.
+The analysis workflow operates on the public dataset at
+https://doi.org/10.5281/zenodo.23951239 and the accompanying figure assets;
+it runs offline without an API key or access to publisher full text.
 
-> Custom scripts for validating the deposited CSV release, recomputing summary
-> tables, and generating data-overview figures are available at
-> https://github.com/sunyrain/OPV-DB-release-code. The release-code version used
-> for the manuscript is tagged as
-> https://github.com/sunyrain/OPV-DB-release-code/tree/v1.0.2. The scripts operate only on the public Zenodo
-> release files and do not require publisher full text, article PDFs, internal
-> databases, API keys, or LLM services. A public, article-text-free core LLM
-> extraction prompt template is provided with the release-code materials.
-> Article-specific worker inputs, packetized evidence snippets, internal
-> literature-harvesting workflows, agent execution logs, publisher full text,
-> article PDFs, and local intermediate databases are not redistributed because
-> they depend on non-redistributable source assets. The archived CSV files,
-> validation tables, tier rules, manifest, checksums, data dictionary,
-> attribution files, and release-code scripts are sufficient for reuse and
-> independent validation of the released dataset.
-If the code repository is later archived in Zenodo, replace or supplement the
-GitHub URL with the software archive DOI.
+The current data contain 32,778 binary observations, with 27,863 in the strict
+performance subset and 19,299 in the strict molecular subset. The data browser
+is maintained separately at https://github.com/sunyrain/OPV2D.

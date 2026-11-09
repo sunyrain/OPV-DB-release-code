@@ -37,4 +37,12 @@ figure files and captions, and a verification summary. Prompts and settings
 document extraction, source-based completion and structure checks. They exclude
 publisher text and credentials and do not constitute deterministic model replay.
 
+The cumulative-curve export includes the record ID and denominator for each
+subset, with tied differences ordered by record ID. This supports direct
+comparison with the source data supplied with the manuscript.
+
+Extraction templates document their respective processing stages. For reuse of
+the released observations, the data dictionary defines the statistical meaning
+of the principal PCE and the separate mean and best-value fields.
+
 The 8 November 2026 file correction retains 32,778 binary observations and 27,863 strict-performance records; the strict molecular subset contains 19,299 records. Figure 2 groups recognised aliases using the DOI union and omits unspecified PCBM. The workflow and Figure 1 asset correspond to these corrected files under the same version DOI.
